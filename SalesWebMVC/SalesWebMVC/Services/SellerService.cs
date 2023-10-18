@@ -22,5 +22,12 @@ namespace SalesWebMVC.Services
         {
             return _context.Seller.ToList(); // acessa os dados da tabela seller e converte para uma lista - operação síncrona, roda operação de acesso ao BD e aplicação fica bloqueada esperando ela terminar, pouca performance
         }
+
+        public void Insert(Seller obj)
+        {
+            obj.Department = _context.Department.First();
+            _context.Add(obj);
+            _context.SaveChanges();
+        }
     }
 }

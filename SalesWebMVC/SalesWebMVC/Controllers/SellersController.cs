@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SalesWebMVC.Services;
+using SalesWebMVC.Models;
 
 namespace SalesWebMVC.Controllers
 {
@@ -24,6 +25,14 @@ namespace SalesWebMVC.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken] // evita ataques xsrf/csrf - quando aproveitam sua sessão para enviar dados maliciosos
+        public IActionResult Create(Seller seller)
+        {
+            _sellerService.Insert(seller);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

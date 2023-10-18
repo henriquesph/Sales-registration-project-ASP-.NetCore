@@ -9,6 +9,9 @@
 <h4>Seller</h4>
 <hr>
 
+@* Integridade referencial - chave estrangeira não pode ser nula
+incluir na classe Seller o DepartmentID (igual foi gerado no BD) como int (struct não pode ser nulo)
+*@
 <div class="row">
     <div class=col-md-4>
         <form asp-action="Create"> @* do método post do controller *@
