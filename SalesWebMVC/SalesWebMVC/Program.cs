@@ -25,6 +25,7 @@ builder.Services.AddDbContext<SalesWebMVCContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SeedingService>();
 builder.Services.AddScoped<SellerService>(); // adicionando serviço no sistema de injeção de dependência
+builder.Services.AddScoped<DepartmentService>();
 
 var app = builder.Build();
 

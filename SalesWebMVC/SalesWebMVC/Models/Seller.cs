@@ -10,7 +10,7 @@ namespace SalesWebMVC.Models
         public DateTime BirthDate { get; set; }
         public double BaseSalary { get; set; }
         public Department Department { get; set; } // Associação, 1 Selller possui 1 Department
-        public int DepartmentId { get; set; }
+        public int DepartmentId { get; set; } // Entity framework entende que o nome da propriedade + Id é o Department que deverá ser instaciado
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>(); // Associação e instanciação - 1 para muitos
 
         public Seller()
