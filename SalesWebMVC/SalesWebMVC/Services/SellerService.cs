@@ -5,6 +5,7 @@
 
 using SalesWebMVC.Data;
 using SalesWebMVC.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMVC.Services
 {
@@ -27,6 +28,20 @@ namespace SalesWebMVC.Services
         {
             /*obj.Department = _context.Department.First();*/ // paleativo - antes de criar o método para escolher o Department
             _context.Add(obj);
+            _context.SaveChanges();
+        }
+
+        public Seller FindById(int id)
+        {
+            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
+
+            // Include - não é do linq nativo, é da biblioteca Microsoft.EntityFrameworkCore, ele dá Join nas tabelas
+        }
+
+        public void Remove(int id)
+        {
+            var obj = _context.Seller.Find(id);
+            _context.Seller.Remove(obj); // remove do dbSet
             _context.SaveChanges();
         }
     }

@@ -1,0 +1,49 @@
+﻿@model SalesWebMVC.Models.Seller
+
+<h2>Details</h2>
+
+<h4>Seller</h4>
+<hr>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name);
+        </dt>
+        <dt>
+            @Html.DisplayFor(model => model.Name);
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email);
+        </dt>
+        <dt>
+            @Html.DisplayFor(model => model.Email);
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate);
+        </dt>
+        <dt>
+            @Html.DisplayFor(model => model.BirthDate);
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseSalary);
+        </dt>
+        <dt>
+            @Html.DisplayFor(model => model.BaseSalary);
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department);
+        </dt>
+        <dt>
+            @Html.DisplayFor(model => model.Department.Name);
+        </dt>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" as-route-id="@Model.Id" class="btn btn-default">Edit</a>
+    <a asp-action="Index">Back to list</a>
+</div>
