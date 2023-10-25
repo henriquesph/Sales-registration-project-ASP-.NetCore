@@ -112,7 +112,7 @@ namespace SalesWebMVC.Controllers
             if (id != seller.Id)
             {
                 //return BadRequest();
-                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" }); // objeto anônimo
             }
             try
             {
