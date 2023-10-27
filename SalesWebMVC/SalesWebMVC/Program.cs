@@ -5,6 +5,8 @@ using MySqlConnector;
 using SalesWebMVC.Data;
 using System.Configuration;
 using SalesWebMVC.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SalesWebMVCContext>(options =>
@@ -28,6 +30,18 @@ builder.Services.AddScoped<SellerService>(); // adicionando serviço no sistema 
 builder.Services.AddScoped<DepartmentService>();
 
 var app = builder.Build();
+
+// Definindo locale padrão dos EUA
+var enUS = new CultureInfo("en-Us");
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(enUS), // Locale padrão
+    SupportedCultures = new List<CultureInfo> { enUS }, // locales possíveis na aplicação
+    SupportedUICultures = new List<CultureInfo> { enUS }
+
+};
+
+app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

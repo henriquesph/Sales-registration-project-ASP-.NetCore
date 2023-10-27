@@ -15,21 +15,26 @@ incluir na classe Seller o DepartmentID (igual foi gerado no BD) como int (struc
 <div class="row">
     <div class=col-md-4>
         <form asp-action="Create"> @* do método post do controller *@
+            <div asp-validation-summary="All" class="text-danger"></div> @* validações do dataAnotations todas em um só lugar (sumário) - para funcionar tem que ter o script no do código - validation scripts partial  *@
             <div class="form-group">
                 <label asp-for="Seller.Name" class="control-label"></label> @* name chamado do model na linha 1 *@
                 <input asp-for="Seller.Name" class="form-control" />
+                <span asp-validation-for="Seller.Name" class="text-danger"></span>
             </div>            
             <div class="form-group">
                 <label asp-for="Seller.Email" class="control-label"></label>
                 <input asp-for="Seller.Email" class="form-control" />
+                <span asp-validation-for="Seller.Email" class="text-danger"></span> @* a validação também pode ser debaixo de cada campo - atualiza em tempo real *@
             </div>
             <div class="form-group">
                 <label asp-for="Seller.BirthDate" class="control-label"></label>
                 <input asp-for="Seller.BirthDate" class="form-control" />
+                <span asp-validation-for="Seller.BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Seller.BaseSalary" class="control-label"></label>
                 <input asp-for="Seller.BaseSalary" class="form-control" />
+                <span asp-validation-for="Seller.BaseSalary" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Seller.DepartmentId" class="control-label"></label>
@@ -45,3 +50,10 @@ incluir na classe Seller o DepartmentID (igual foi gerado no BD) como int (struc
         </form>
     </div>
 </div>
+
+@* script usado no início do form (validações) *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

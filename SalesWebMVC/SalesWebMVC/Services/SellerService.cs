@@ -20,36 +20,47 @@ namespace SalesWebMVC.Services
             _context = context;
         }
 
-        public List<Seller> FindAll()
+
+        //public List<Seller> FindAll() // acessa os dados da tabela seller e converte para uma lista - operação síncrona, roda operação de acesso ao BD e aplicação fica bloqueada esperando ela terminar, pouca performance
+        //{
+        //    return _context.Seller.ToList();
+        //}
+
+
+        public async Task<List<Seller>> FindAllAsync()  // chamada assíncrona
         {
-            return _context.Seller.ToList(); // acessa os dados da tabela seller e converte para uma lista - operação síncrona, roda operação de acesso ao BD e aplicação fica bloqueada esperando ela terminar, pouca performance
+            return await _context.Seller.ToListAsync(); 
         }
 
-        public void Insert(Seller obj)
+        public async Task InsertAsync(Seller obj) // na chamada síncrona tinha o void
         {
             /*obj.Department = _context.Department.First();*/ // paleativo - antes de criar o método para escolher o Department
-            _context.Add(obj);
-            _context.SaveChanges();
+            _context.Add(obj); // feita em memória, não precisa do async
+            await _context.SaveChangesAsync(); // acessa o BD, precisa do async
         }
 
-        public Seller FindById(int id)
+        public async Task<Seller> FindByIdAsync(int id)
         {
-            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
 
             // Include - não é do linq nativo, é da biblioteca Microsoft.EntityFrameworkCore, ele dá Join nas tabelas
             // Eager loading  - carregar objetos relacionados
+            // na versão síncrona era FirstOrDefault
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id) // na função síncrona tinha o void
         {
-            var obj = _context.Seller.Find(id);
+            var obj = await _context.Seller.FindAsync(id);
             _context.Seller.Remove(obj); // remove do dbSet
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
-            if (!_context.Seller.Any(x => x.Id == obj.Id))
+            //if (!_context.Seller.Any(x => x.Id == obj.Id)) // abaixo reescrevi para assíncrono
+
+            bool hasAny = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
+            if(!hasAny)
             {
                 throw new NotFoundException("Id not found");
             }
@@ -57,7 +68,7 @@ namespace SalesWebMVC.Services
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e) // exceção do entity framework
             {

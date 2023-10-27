@@ -1,6 +1,7 @@
 ﻿using SalesWebMVC.Data;
 using SalesWebMVC.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore; // ToListAsync
 
 namespace SalesWebMVC.Services
 {
@@ -14,9 +15,18 @@ namespace SalesWebMVC.Services
             _context = context;
         }
 
-        public List<Department> FindAll()
+
+        // operações assíncronas: não param a aplicação quando são executadas, rodam em paralelo
+        // chamadas ao BD são lentas, dessa forma melhora a perfomance
+
+        //public List<Department> FindAll()  // Sincrona
+        //{
+        //    return _context.Department.OrderBy(x => x.Name).ToList();
+        //}
+
+        public async Task<List<Department>> FindAllAsync()  // Assíncrona
         {
-            return _context.Department.OrderBy(x => x.Name).ToList();
+            return await _context.Department.OrderBy(x => x.Name).ToListAsync(); // O linq não executa, apenas prepara, quem faz a chamada é a operação seguinte, no caso ToListAsync, o Await informa ao compilador que é uma chamada assíncrona
         }
     }
 }
