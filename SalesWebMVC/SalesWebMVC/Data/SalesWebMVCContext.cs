@@ -19,5 +19,15 @@ namespace SalesWebMVC.Data
         public DbSet<Department> Department { get; set; } = default!;
         public DbSet<Seller> Seller { get; set; } = default!;
         public DbSet<SalesRecord> SalesRecord { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) // Corrige o erro na hora de criar o BD que não gerou as FKs
+        {
+            base.OnModelCreating(modelBuilder);
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
+            .SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        }
     }
 }
